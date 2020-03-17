@@ -26,24 +26,27 @@ namespace Cw2
 
         public static void ErrorLog(string err)
         {
-            String logpath = @"C:\Users\s19676\Desktop\log.txt";
+            String logpath = Console.ReadLine();// @"C:\Users\s19676\Desktop\log.txt";
             if (!File.Exists(logpath))
             {
                 File.Create(logpath).Dispose();
             }
 
-            StreamWriter sw = File.AppendText(logpath);
-            sw.WriteLine("Start " + DateTime.Now);
-            sw.WriteLine(err);
-            sw.Close();
+            using (StreamWriter sw = File.AppendText(logpath))
+            {
+                sw.WriteLine("Start " + DateTime.Now);
+                sw.WriteLine(err);
+                sw.Close();
+            }
         }
 
         static void Main(string[] args)
         {
             try
             {
-                string path = @"C:\Users\s19676\Desktop\dane.csv";
-                string xmlpath = @"C:\Users\s19676\Desktop\";
+
+                string path = Console.ReadLine();//C:\Users\s19676\Desktop\dane.csv
+                string xmlpath = Console.ReadLine();//C:\Users\s19676\Desktop\
                 string format = Console.ReadLine(); //xml 
 
                 var sizeNewArray = 0;
@@ -68,21 +71,21 @@ namespace Cw2
                     for (var i = 0; i < so.Length; i++)
                     {
                         string[] student = so[i].Split(',');
-                        if (student[0].Length == 0 ||
-                            student[1].Length == 0 ||
-                            student[2].Length == 0 ||
-                            student[3].Length == 0 ||
-                            student[4].Length == 0 ||
-                            student[5].Length == 0 ||
-                            student[6].Length == 0 ||
-                            student[7].Length == 0 ||
-                            student[8].Length == 0)
+                        if (student[0].Length != 0 &&
+                            student[1].Length != 0 &&
+                            student[2].Length != 0 &&
+                            student[3].Length != 0 &&
+                            student[4].Length != 0 &&
+                            student[5].Length != 0 &&
+                            student[6].Length != 0 &&
+                            student[7].Length != 0 &&
+                            student[8].Length != 0)
                         {
-                            sizeNewArray++;
-                            indexes.Add(i);
-                            ErrorLog("Błąd zapisu: " + so[i]);
-
+                            continue;
                         }
+                        sizeNewArray++;
+                        indexes.Add(i);
+                        ErrorLog("Błąd zapisu: " + so[i]);
 
                     }
 
@@ -91,15 +94,15 @@ namespace Cw2
 
                     for (var i = 0; i < so.Length; i++)
                     {
-                        if (i == indexes[indeks])
+                        if (i != indexes[indeks])
+                        {
+                            list.Add(so[i]);
+                        }
+                        else
                         {
                             if (indeks >= indexes.Capacity - 1)
                                 continue;
                             indeks++;
-                        }
-                        else
-                        {
-                            list.Add(so[i]);
                         }
                     }
 
